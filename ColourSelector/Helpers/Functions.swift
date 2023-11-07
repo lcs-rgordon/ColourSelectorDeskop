@@ -7,43 +7,25 @@
 
 import Foundation
 
-// Return a list of palettes that have been filtered by the hue
-// selected using the slider, +/- 10°
-func filtered(by hue: Double, from list: [Palette], selectionActive: Bool) -> [Palette] {
+func filtering(originalList: [ColorTile], on desiredHueFloor: Hue) -> [ColorTile] {
     
-    // Don't filter results when a selection is not actcive
-    if selectionActive == false {
-        // Return entire list
-        return list
-    } else {
-
-        // Debug messages
-        print("hue is: \(hue)")
-        print(list)
-        
-        // Build the range of hues +/- 10°
-        let hueRange = (hue - 10.0 / 360.0)...(hue + 10.0 / 360.0)
-        print("The search / filter range is: \(hueRange)")
-        
-        // Normally we would use the "filter" method available to collection types in Swift
-        // To satisfy AP Create Task requirements, we'll implement a linear search which is
-        // more easily explained in the written responses.
-        
-        // Create an empty list
-        var filteredResults: [Palette] = []
-        
-        // Iterate over the saved palettes and find those close to the selected hue (inside the range)
-        for palette in list {
-            
-            // Look for a palette in the desired range
-            if hueRange.contains(palette.hue) {
-                filteredResults.append(palette)
-            }
-            
-        }
-        
-        // Return the list of filtered results
-        return filteredResults
+    if desiredHueFloor == .allHues {
+        return originalList
     }
+    
+    let desiredHueCeiling = desiredHueFloor.rawValue + 60.0
+    let desiredHueRange = desiredHueFloor.rawValue...desiredHueCeiling
+
+    var filteredListOfColorTiles: [ColorTile] = []
+        
+    for tile in originalList {
+            
+        if desiredHueRange.contains(tile.hue) {
+            filteredListOfColorTiles.append(tile)
+        }
+            
+    }
+        
+    return filteredListOfColorTiles
 
 }

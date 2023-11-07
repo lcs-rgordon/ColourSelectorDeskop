@@ -9,106 +9,89 @@ import SwiftUI
 
 struct BrowsingView: View {
     
-    // MARK: Stored properties
-    @State private var selectedHue = 0.0
+    @State var selectedHue = 0.0
+
+    @State var history: [ColorTile] = [] // empty
     
-    // Our list of colour palettes that we like
-    // "Derived value"
-    @Binding var history: [Palette]
-    
-    // MARK: Computed properties
-    
-    // The selected hue expressed as a value between 0.0 and 1.0
-    private var hue: Double {
-        return selectedHue / 360.0
-    }
-    
-    // Make the colour that SwiftUI will use to set the background of the colour swatch
-    private var baseColour: Color {
-        return Color(hue: hue,
-                     saturation: 0.8,
-                     brightness: 0.9)
+    @State var selectedHueRange: Hue = .allHues
+
+    var tileBasedOnSelectedHue: ColorTile {
+        return ColorTile(hue: selectedHue)
     }
 
-    // Interface
     var body: some View {
 
-        VStack(spacing: 20) {
+        HStack {
             
-            // Selecting the hue
-            HStack {
+            VStack(spacing: 20) {
                 
-                ColorTileView(colour: baseColour,
-                                 size: 100)
-                .padding(.trailing)
-
-                VStack(alignment: .leading) {
+                HStack(alignment: .top) {
                     
-                    Text("Hue")
-                        .bold()
-                    
-                    Text("\(selectedHue.formatted(.number.precision(.fractionLength(1))))°")
+                    TileView(
+                        colorToShow: tileBasedOnSelectedHue.baseColor,
+                        size: 100.0
+                    )
+                    .padding(.trailing)
 
-                    Slider(value: $selectedHue,
-                           in: 0...360,
-                           label: { Text("Hue") },
-                           minimumValueLabel: { Text("0") },
-                           maximumValueLabel: { Text("360") })
+                    VStack(alignment: .leading) {
+                                                
+                        Text(tileBasedOnSelectedHue.hueFormattedAsString)
 
+                        Slider(value: $selectedHue,
+                               in: 0...360,
+                               label: { Text("Base Hue") },
+                               minimumValueLabel: { Text("0") },
+                               maximumValueLabel: { Text("360") })
+
+
+                    }
                 }
-            }
-            
-            // Monochromatic palette
-            HStack {
                 
-                MonochromaticPaletteView(hue: hue)
+                HStack {
+                    
+                    PaletteView(fromBaseTile: tileBasedOnSelectedHue)
 
+                    Spacer()
+                    
+                    Button(action: {
+                        savePalette()
+                    }, label: {
+                        Text("Save")
+                            .font(.subheadline.smallCaps())
+                    })
+                    .buttonStyle(.bordered)
+        
+                    
+                }
+                
                 Spacer()
-                
-                Button(action: {
-                    // Save the current palette
-                    savePalette()
-                }, label: {
-                    Text("Save")
-                        .font(.subheadline.smallCaps())
-                })
-                .buttonStyle(.bordered)
-    
-                
+                                
             }
-            
-            List(history) { palette in
-                MonochromaticPaletteView(hue: palette.hue,
-                                         showTitle: false)
+
+            VStack {
+                
+                Picker("Filtering on", selection: $selectedHueRange) {
+                    Text("All hues (no filtering)").tag(Hue.allHues)
+                }
+                .padding(10)
+
+                List(history) { tile in
+                    PaletteView(fromBaseTile: tile)
+                }
+
             }
             
         }
         .padding()
     }
     
-    // MARK: Functions (actions, logic, things that happen...)
     func savePalette() {
-        let newPalette = Palette(hue: hue)
-        history.append(newPalette)
-        print(history)
+        history.append(tileBasedOnSelectedHue)
     }
 }
 
 #Preview {
 
-    // Create a view to simulate the App Level Entry Point -> BrowsingView connection
-    struct LiveBrowsingView: View {
-        
-        // Populate with some palettes to start...
-        @State var palettes: [Palette] = examplePalettes
-        
-        var body: some View {
-            
-            BrowsingView(history: $palettes)
-            
-        }
-    }
-
-    return LiveBrowsingView()
+    BrowsingView()
 
 }
