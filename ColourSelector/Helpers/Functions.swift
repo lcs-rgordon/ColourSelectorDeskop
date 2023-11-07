@@ -9,7 +9,7 @@ import Foundation
 
 // Return a list of palettes that have been filtered by the hue
 // selected using the slider, +/- 10°
-func filtered(by hue: Double, from list: [SavedPalette], selectionActive: Bool) -> [SavedPalette] {
+func filtered(by hue: Double, from list: [Palette], selectionActive: Bool) -> [Palette] {
     
     // Don't filter results when a selection is not actcive
     if selectionActive == false {
@@ -30,7 +30,7 @@ func filtered(by hue: Double, from list: [SavedPalette], selectionActive: Bool) 
         // more easily explained in the written responses.
         
         // Create an empty list
-        var filteredResults: [SavedPalette] = []
+        var filteredResults: [Palette] = []
         
         // Iterate over the saved palettes and find those close to the selected hue (inside the range)
         for palette in list {

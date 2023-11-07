@@ -1,5 +1,5 @@
 //
-//  SavedPalette.swift
+//  Palette.swift
 //  ColourSelector
 //
 //  Created by Russell Gordon on 2022-10-27.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SavedPalette: Identifiable {
+struct Palette: Identifiable {
     let id = UUID()
     let hue: Double
     let saturation: Double = 0.8
@@ -18,15 +18,15 @@ struct SavedPalette: Identifiable {
 
 let examplePalettes = [
 
-    SavedPalette(hue: 0.1)
+    Palette(hue: 0.1)
     
     ,
     
-    SavedPalette(hue: 0.2)
+    Palette(hue: 0.2)
     
     ,
 
-    SavedPalette(hue: 0.3)
+    Palette(hue: 0.3)
     
     ,
 

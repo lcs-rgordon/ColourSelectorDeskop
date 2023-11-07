@@ -1,5 +1,5 @@
 //
-//  SavedPalettesView.swift
+//  PalettesView.swift
 //  ColourSelector
 //
 //  Created by Russell Gordon on 2022-10-27.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct SavedPalettesView: View {
+struct PalettesView: View {
     
     // MARK: Stored properties
     @State private var selectedHue = 0.0
     
     // Our list of colour palettes that we like
     // "Derived value"
-    @Binding var savedPalettes: [SavedPalette]
+    @Binding var history: [Palette]
     
     // Whether a hue has been selected or not
     @State private var selectionMade = false
@@ -41,7 +41,7 @@ struct SavedPalettesView: View {
             // Selecting the hue
             HStack {
                 
-                ColourSwatchView(colour: baseColour,
+                ColorTileView(colour: baseColour,
                                  size: 100)
                 .padding(.trailing)
 
@@ -74,7 +74,7 @@ struct SavedPalettesView: View {
             }
             
             List(filtered(by: hue,
-                          from: savedPalettes,
+                          from: history,
                           selectionActive: selectionMade)) { palette in
                 
                 MonochromaticPaletteView(hue: palette.hue,
@@ -101,24 +101,22 @@ struct SavedPalettesView: View {
     
 }
 
-struct SavedPalettesView_Previews: PreviewProvider {
+#Preview {
     
-    static var previews: some View {
-        LiveSavedPalettesView()
-    }
-    
-    // Create a view to simulate the App Level Entry Point -> ContentView connection
-    struct LiveSavedPalettesView: View {
+    // Create a view to simulate the App Level Entry Point -> BrowsingView connection
+    struct LivePalettesView: View {
         
         // Populate with some palettes to start...
-        @State var palettes: [SavedPalette] = examplePalettes
+        @State var palettes: [Palette] = examplePalettes
         
         var body: some View {
             
-            SavedPalettesView(savedPalettes: $palettes)
+            PalettesView(history: $palettes)
             
         }
     }
+    
+    return LivePalettesView()
     
     
 }

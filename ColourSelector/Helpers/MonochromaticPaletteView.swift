@@ -46,13 +46,13 @@ struct MonochromaticPaletteView: View {
             
             HStack(spacing: 0) {
                 
-                ColourSwatchView(colour: baseColour,
+                ColorTileView(colour: baseColour,
                                  size: 50)
 
-                ColourSwatchView(colour: darkerColour,
+                ColorTileView(colour: darkerColour,
                                  size: 50)
                 
-                ColourSwatchView(colour: evenDarkerColour,
+                ColorTileView(colour: evenDarkerColour,
                                  size: 50)
 
                 Spacer()
@@ -60,12 +60,15 @@ struct MonochromaticPaletteView: View {
             }
             
         }
+        
     }
 }
 
 struct MonochromaticPaletteView_Previews: PreviewProvider {
     static var previews: some View {
         MonochromaticPaletteView(hue: 0.0, showTitle: true)
+            .padding()
         MonochromaticPaletteView(hue: 0.0, showTitle: false)
+            .padding()
     }
 }

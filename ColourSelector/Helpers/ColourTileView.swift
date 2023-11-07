@@ -1,5 +1,5 @@
 //
-//  ColourSwatchView.swift
+//  ColorTileView.swift
 //  ColourSelector
 //
 //  Created by Russell Gordon on 2022-10-27.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ColourSwatchView: View {
+struct ColorTileView: View {
     
     // MARK: Stored properties
     var colour: Color
@@ -27,9 +27,9 @@ struct ColourSwatchView: View {
     }
 }
 
-struct ColourSwatchView_Previews: PreviewProvider {
+struct ColorTileView_Previews: PreviewProvider {
     static var previews: some View {
-        ColourSwatchView(colour: Color.blue,
+        ColorTileView(colour: Color.blue,
                          size: 300)
     }
 }

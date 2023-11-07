@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  BrowsingView.swift
 //  ColourSelector
 //
 //  Created by Russell Gordon on 2022-10-27.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct BrowsingView: View {
     
     // MARK: Stored properties
     @State private var selectedHue = 0.0
     
     // Our list of colour palettes that we like
     // "Derived value"
-    @Binding var savedPalettes: [SavedPalette]
+    @Binding var history: [Palette]
     
     // MARK: Computed properties
     
@@ -38,7 +38,7 @@ struct ContentView: View {
             // Selecting the hue
             HStack {
                 
-                ColourSwatchView(colour: baseColour,
+                ColorTileView(colour: baseColour,
                                  size: 100)
                 .padding(.trailing)
 
@@ -77,7 +77,7 @@ struct ContentView: View {
                 
             }
             
-            List(savedPalettes) { palette in
+            List(history) { palette in
                 MonochromaticPaletteView(hue: palette.hue,
                                          showTitle: false)
             }
@@ -88,30 +88,27 @@ struct ContentView: View {
     
     // MARK: Functions (actions, logic, things that happen...)
     func savePalette() {
-        let newPalette = SavedPalette(hue: hue)
-        savedPalettes.append(newPalette)
-        print(savedPalettes)
+        let newPalette = Palette(hue: hue)
+        history.append(newPalette)
+        print(history)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        LiveContentView()
-    }
-    
-    // Create a view to simulate the App Level Entry Point -> ContentView connection
-    struct LiveContentView: View {
+#Preview {
+
+    // Create a view to simulate the App Level Entry Point -> BrowsingView connection
+    struct LiveBrowsingView: View {
         
         // Populate with some palettes to start...
-        @State var palettes: [SavedPalette] = examplePalettes
+        @State var palettes: [Palette] = examplePalettes
         
         var body: some View {
             
-            ContentView(savedPalettes: $palettes)
+            BrowsingView(history: $palettes)
             
         }
     }
-    
-    
+
+    return LiveBrowsingView()
+
 }

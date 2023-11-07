@@ -14,7 +14,7 @@ struct ColourSelectorApp: App {
     
     // Our list of saved palettes
     // "Source of truth"
-    @State private var savedPalettes: [SavedPalette] = [] // empty
+    @State private var history: [Palette] = [] // empty
     
     // MARK: Computed properties
     
@@ -23,13 +23,13 @@ struct ColourSelectorApp: App {
         WindowGroup {
             TabView {
                 
-                ContentView(savedPalettes: $savedPalettes)
+                BrowsingView(history: $history)
                     .tabItem {
                         Image(systemName: "swatchpalette")
                         Text("Browse")
                     }
                 
-                SavedPalettesView(savedPalettes: $savedPalettes)
+                PalettesView(history: $history)
                     .tabItem {
                         Image(systemName: "list.dash")
                         Text("Review")
