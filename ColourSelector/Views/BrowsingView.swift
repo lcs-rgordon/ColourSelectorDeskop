@@ -9,14 +9,18 @@ import SwiftUI
 
 struct BrowsingView: View {
     
-    @State var selectedHue = 0.0
+    @State var selectedBaseHue = 0.0
 
-    @State var history: [ColorTile] = [] // empty
+    @State var history: [Palette] = []
     
     @State var selectedHueRange: Hue = .allHues
 
-    var tileCreatedFromSelectedHue: ColorTile {
-        return ColorTile(hue: selectedHue)
+    var tileCreatedFromSelectedHue: Tile {
+        return Tile(hue: selectedBaseHue, brightness: 90)
+    }
+    
+    var paletteCreatedFromBaseTile: Palette {
+        return Palette(base: tileCreatedFromSelectedHue)
     }
 
     var body: some View {
@@ -27,7 +31,7 @@ struct BrowsingView: View {
                 
                     
                 TileView(
-                    colorToShow: tileCreatedFromSelectedHue.baseColor,
+                    tile: tileCreatedFromSelectedHue,
                     size: 150.0
                 )
                 .padding(.trailing)
@@ -36,7 +40,7 @@ struct BrowsingView: View {
                 Text(tileCreatedFromSelectedHue.hueFormattedAsString)
                     .font(.largeTitle)
 
-                Slider(value: $selectedHue,
+                Slider(value: $selectedBaseHue,
                        in: 0...360,
                        label: { Text("Base Hue") },
                        minimumValueLabel: { Text("0") },
@@ -44,7 +48,7 @@ struct BrowsingView: View {
 
                 HStack {
                     
-                    PaletteView(fromBaseTile: tileCreatedFromSelectedHue)
+                    PaletteView(palette: paletteCreatedFromBaseTile)
 
                     Spacer()
                     
@@ -55,7 +59,6 @@ struct BrowsingView: View {
                             .font(.subheadline.smallCaps())
                     })
                     .buttonStyle(.bordered)
-        
                     
                 }
                 
@@ -86,8 +89,8 @@ struct BrowsingView: View {
                         originalList: history,
                         on: selectedHueRange
                     )
-                ) { tile in
-                    PaletteView(fromBaseTile: tile)
+                ) { currentPalette in
+                    PaletteView(palette: currentPalette)
                 }
 
             }
@@ -97,7 +100,7 @@ struct BrowsingView: View {
     }
     
     func savePalette() {
-        history.append(tileCreatedFromSelectedHue)
+        history.append(paletteCreatedFromBaseTile)
     }
 }
 

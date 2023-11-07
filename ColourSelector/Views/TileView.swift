@@ -9,18 +9,18 @@ import SwiftUI
 
 struct TileView: View {
     
-    var colorToShow: Color
+    var tile: Tile
     var size: Double
     
     var body: some View {
 
         Rectangle()
-            .fill(colorToShow)
+            .fill(tile.color)
             .frame(width: size, height: size)
 
     }
 }
 
 #Preview {
-    TileView(colorToShow: blueColorTile.baseColor, size: 100)
+    TileView(tile: blueTile, size: 100)
 }

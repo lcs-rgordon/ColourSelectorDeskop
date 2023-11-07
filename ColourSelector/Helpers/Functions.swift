@@ -7,25 +7,25 @@
 
 import Foundation
 
-func filtering(originalList: [ColorTile], on desiredHueFloor: Hue) -> [ColorTile] {
+func filtering(originalList: [Palette], on desiredFloor: Hue) -> [Palette] {
     
-    if desiredHueFloor == .allHues {
+    if desiredFloor == .allHues {
         return originalList
     }
     
-    let desiredHueCeiling = desiredHueFloor.rawValue + 60.0
-    let desiredHueRange = desiredHueFloor.rawValue...desiredHueCeiling
+    let desiredCeiling = desiredFloor.rawValue + 60.0
+    let desiredHueRange = desiredFloor.rawValue...desiredCeiling
 
-    var filteredListOfColorTiles: [ColorTile] = []
+    var filteredListOfPalettes: [Palette] = []
         
-    for tile in originalList {
+    for palette in originalList {
             
-        if desiredHueRange.contains(tile.hue) {
-            filteredListOfColorTiles.append(tile)
+        if desiredHueRange.contains(palette.base.hue) {
+            filteredListOfPalettes.append(palette)
         }
             
     }
         
-    return filteredListOfColorTiles
+    return filteredListOfPalettes
 
 }

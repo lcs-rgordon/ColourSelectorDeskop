@@ -9,25 +9,24 @@ import SwiftUI
 
 struct PaletteView: View {
     
-    var fromBaseTile: ColorTile
-    var title: String = ""
+    let palette: Palette
 
     var body: some View {
         
         HStack(spacing: 0) {
             
             TileView(
-                colorToShow: fromBaseTile.baseColor,
+                tile: palette.base,
                 size: 50
             )
 
             TileView(
-                colorToShow: fromBaseTile.darkerColor,
+                tile: palette.darker,
                 size: 50
             )
             
             TileView(
-                colorToShow: fromBaseTile.evenDarkerColor,
+                tile: palette.darkest,
                 size: 50
             )
 
@@ -39,5 +38,5 @@ struct PaletteView: View {
 }
 
 #Preview {
-    PaletteView(fromBaseTile: blueColorTile)
+    PaletteView(palette: examplePalette)
 }
