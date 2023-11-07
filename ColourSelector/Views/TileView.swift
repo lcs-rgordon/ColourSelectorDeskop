@@ -9,13 +9,9 @@ import SwiftUI
 
 struct TileView: View {
     
-    // MARK: Stored properties
     var colorToShow: Color
     var size: Double
     
-    // MARK: Computed property
-    
-    // Interface
     var body: some View {
 
         Rectangle()

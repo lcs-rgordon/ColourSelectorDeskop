@@ -15,7 +15,7 @@ struct BrowsingView: View {
     
     @State var selectedHueRange: Hue = .allHues
 
-    var tileBasedOnSelectedHue: ColorTile {
+    var tileCreatedFromSelectedHue: ColorTile {
         return ColorTile(hue: selectedHue)
     }
 
@@ -23,33 +23,28 @@ struct BrowsingView: View {
 
         HStack {
             
-            VStack(spacing: 20) {
+            VStack(alignment: .leading, spacing: 20) {
                 
-                HStack(alignment: .top) {
                     
-                    TileView(
-                        colorToShow: tileBasedOnSelectedHue.baseColor,
-                        size: 100.0
-                    )
-                    .padding(.trailing)
+                TileView(
+                    colorToShow: tileCreatedFromSelectedHue.baseColor,
+                    size: 150.0
+                )
+                .padding(.trailing)
 
-                    VStack(alignment: .leading) {
-                                                
-                        Text(tileBasedOnSelectedHue.hueFormattedAsString)
+                                            
+                Text(tileCreatedFromSelectedHue.hueFormattedAsString)
+                    .font(.largeTitle)
 
-                        Slider(value: $selectedHue,
-                               in: 0...360,
-                               label: { Text("Base Hue") },
-                               minimumValueLabel: { Text("0") },
-                               maximumValueLabel: { Text("360") })
+                Slider(value: $selectedHue,
+                       in: 0...360,
+                       label: { Text("Base Hue") },
+                       minimumValueLabel: { Text("0") },
+                       maximumValueLabel: { Text("360") })
 
-
-                    }
-                }
-                
                 HStack {
                     
-                    PaletteView(fromBaseTile: tileBasedOnSelectedHue)
+                    PaletteView(fromBaseTile: tileCreatedFromSelectedHue)
 
                     Spacer()
                     
@@ -68,14 +63,30 @@ struct BrowsingView: View {
                                 
             }
 
-            VStack {
+            VStack(alignment: .leading) {
                 
                 Picker("Filtering on", selection: $selectedHueRange) {
                     Text("All hues (no filtering)").tag(Hue.allHues)
+                    Text("Red to yellow (0° to 60°)").tag(Hue.red)
+                    Text("Yellow to green (60° to 120°)").tag(Hue.yellow)
+                    Text("Green to teal (120° to 180°)").tag(Hue.green)
+                    Text("Teal to blue (180° to 240°)").tag(Hue.teal)
+                    Text("Blue to purple (240° to 300°)").tag(Hue.blue)
+                    Text("Purple to red (300° to 360°)").tag(Hue.purple)
                 }
                 .padding(10)
+                
+                Image("IllustrationOfHSBColorModel")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200)
 
-                List(history) { tile in
+                List(
+                    filtering(
+                        originalList: history,
+                        on: selectedHueRange
+                    )
+                ) { tile in
                     PaletteView(fromBaseTile: tile)
                 }
 
@@ -86,12 +97,13 @@ struct BrowsingView: View {
     }
     
     func savePalette() {
-        history.append(tileBasedOnSelectedHue)
+        history.append(tileCreatedFromSelectedHue)
     }
 }
 
 #Preview {
 
     BrowsingView()
+        .frame(height: 600)
 
 }

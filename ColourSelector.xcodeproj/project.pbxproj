@@ -93,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				81077754290B5DD400E67DD4 /* ColorTile.swift */,
+				818FAE472AFA5B6F00A87D25 /* Hue.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -101,7 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				810777A9290C49B500E67DD4 /* Functions.swift */,
-				818FAE472AFA5B6F00A87D25 /* Hue.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";

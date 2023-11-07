@@ -13,6 +13,7 @@ struct ColourSelectorApp: App {
     var body: some Scene {
         WindowGroup {
             BrowsingView()
+                .frame(height: 600)
         }
     }
 }
